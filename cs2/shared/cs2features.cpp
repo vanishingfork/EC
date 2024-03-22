@@ -15,6 +15,7 @@ namespace features
 	cs2::WEAPON_CLASS weapon_class;
 	BOOL             b_aimbot_button;
 	BOOL             b_triggerbot_button;
+	BOOL			 b_esp_button;
 
 
 	//
@@ -69,6 +70,7 @@ namespace features
 namespace config
 {
 	static BOOL  rcs;
+	static BOOL  always_esp;
 	static BOOL  aimbot_enabled;
 	static DWORD aimbot_button;
 	static float aimbot_fov;
@@ -76,6 +78,7 @@ namespace config
 	static BOOL  aimbot_multibone;
 	static DWORD triggerbot_button;
 	static BOOL  visuals_enabled;
+	static DWORD esp_button;
 }
 
 inline DWORD random_number(DWORD min, DWORD max)
@@ -94,6 +97,10 @@ inline void cs2::features::update_settings(void)
 	config::rcs = 0;
 	config::aimbot_enabled = 1;
 	config::aimbot_multibone = 1;
+	config::always_esp = 0;
+	config::esp_button = 26; //p
+	config::aimbot_button     = 317;
+	config::triggerbot_button = 10;
 
 
 #ifdef _KERNEL_MODE
@@ -116,93 +123,66 @@ inline void cs2::features::update_settings(void)
 
 
 	switch (crosshair_alpha)
-	{
+	{ //319 is middle mouse button
 	//
 	// mouse5 aimkey, mouse4 triggerkey
 	//
-	case 244:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 2.0f;
-		config::aimbot_smooth     = 5.0f;
-		config::visuals_enabled   = 0;
-		break;
-	case 245:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 2.5f;
-		config::aimbot_smooth     = 4.5f;
-		break;
-	case 246:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 3.0f;
-		config::aimbot_smooth     = 4.0f;
-		break;
-	case 247:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 3.5f;
-		config::aimbot_smooth     = 3.5f;
-		break;
+	//closet
 	case 248:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 4.0f;
-		config::aimbot_smooth     = 3.0f;
+		config::aimbot_fov        = 2.0f;
+		config::aimbot_smooth     = 5.0f;
 		break;
+	//closet slightly better aimbot and rcs
 	case 249:
-		config::aimbot_button     = 321;
-		config::triggerbot_button = 320;
-		config::aimbot_fov        = 4.5f;
-		config::aimbot_smooth     = 2.5f;
-		break;
-	//
-	// mouse1 aimkey, mouse5 triggerkey
-	//
-	case 250:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
-		config::aimbot_fov        = 2.0f;
-		config::aimbot_smooth     = 5.0f;
-		config::visuals_enabled   = 0;
-		break;
-	case 251:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
 		config::aimbot_fov        = 2.5f;
-		config::aimbot_smooth     = 4.5f;
-		break;
-	case 252:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
-		config::aimbot_fov        = 3.0f;
 		config::aimbot_smooth     = 4.0f;
+		config::rcs = 1;
 		break;
-	case 253:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
-		config::aimbot_fov        = 3.5f;
-		config::aimbot_smooth     = 3.5f;
-		break;
-	case 254:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
-		config::aimbot_fov        = 4.0f;
+	//closet with visuals 
+	case 250:
+		config::aimbot_fov        = 5.0f;
 		config::aimbot_smooth     = 3.0f;
+		config::rcs = 1;
 		break;
+	//slightly 'legit'-ish with visuals
+	case 251:
+		config::aimbot_fov        = 7.5f;
+		config::aimbot_smooth     = 2.2f;
+		config::rcs = 1;
+		break;
+	// blatant
+	case 252:
+		config::aimbot_fov        = 15.0f;
+		config::aimbot_smooth     = 0.75f;
+		config::rcs = 1;
+		config::always_esp = 1;
+		break;
+	// even more blatant, pretty much flick every hit
+	case 253:
+		config::aimbot_fov        = 30.0f;
+		config::aimbot_smooth     = 0.625f;
+		config::rcs = 1;
+		config::always_esp = 1;
+		break;
+	// oh shit blatant asf bruh.
+	case 254:
+		config::aimbot_fov        = 90.0f;
+		config::aimbot_smooth     = 0.5f;
+		config::rcs = 1;
+		config::always_esp = 1;
+		break;
+	// flick every time 0 delay
 	case 255:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
-		config::aimbot_fov        = 4.5f;
-		config::aimbot_smooth     = 2.5f;
+		config::aimbot_fov        = 360.0f;
+		config::aimbot_smooth     = 0.0f;
+		config::rcs = 1;	
+		config::always_esp = 1;
 		break;
+	// very minimal
 	default:
-		config::aimbot_button     = 317;
-		config::triggerbot_button = 321;
 		config::aimbot_fov        = 2.0f;
 		config::aimbot_smooth     = 5.0f;
-		config::visuals_enabled   = 0;
+		config::always_esp = 0;
 		break;
 	}
 }
@@ -340,6 +320,13 @@ void cs2::features::run(void)
 	//
 	b_triggerbot_button = cs2::input::is_button_down(config::triggerbot_button);
 	b_aimbot_button     = cs2::input::is_button_down(config::aimbot_button) | b_triggerbot_button;
+	b_esp_button 		= cs2::input::is_button_down(config::esp_button);
+
+	if (b_esp_button | config::always_esp) {
+		config::visuals_enabled = 1;
+	} else {
+		config::visuals_enabled = 0;
+	}
 	
 
 	//
@@ -707,6 +694,8 @@ static void cs2::features::standalone_rcs(DWORD num_shots, vec2 vec_punch, float
 	}
 	rcs_old_punch = vec_punch;
 }
+
+
 
 static void cs2::features::esp(QWORD local_player, QWORD target_player, vec3 head)
 {

@@ -29,6 +29,7 @@ namespace client
 	extern void mouse1_up(void);
 	extern void DrawRect(void *hwnd, int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b);
 	extern void DrawFillRect(void *hwnd, int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b);
+	extern void DrawLine(void *hwnd, int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b);
 }
 
 namespace cs2
